@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Webmagic by code4craft</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Webmagic</h1>
+        <p>一个网络爬虫工具包</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/code4craft/webmagic" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/code4craft/webmagic/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/code4craft/webmagic/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <p>webmagic的发起源于工作中的需要，其定位是帮助开发者更便捷的开发一个垂直的网络爬虫。</p>
+
+<p>webmagic的功能覆盖整个爬虫的生命周期(链接提取、页面下载、内容抽取、持久化)，开发者可以便捷的使用xpath和正则表达式进行链接和内容的提取，只需编写少量代码即可完成一个定制爬虫。</p>
+
+<h4>
+<a name="" class="anchor" href="#"><span class="octicon octicon-link"></span></a>请注意</h4>
+
+<p>webmagic正处于开发阶段，目前还没有稳定版本。欢迎开发者参与到webmagic的试用和修改中来。 <strong>如果只是想以外部jar包的方式，引用webmagic并进行自己的业务开发，建议你等待webmagic的第一个稳定版本。</strong></p>
+
+<h3>
+<a name="-1" class="anchor" href="#-1"><span class="octicon octicon-link"></span></a>特色</h3>
+
+<ul>
+<li>
+<h4>
+<a name="-2" class="anchor" href="#-2"><span class="octicon octicon-link"></span></a>垂直爬虫</h4>
+
+<p>webmagic着重于页面抽取的工作。开发者可以使用xpath和正则表达式进行链接和内容的提取，支持链式API调用，以及单复数转换。</p>
+
+<pre><code>String content = page.getHtml().x("//div[@class='body']").r("这段话比较重要(.*)").toString();
+</code></pre>
+</li>
+<li>
+<h4>
+<a name="-3" class="anchor" href="#-3"><span class="octicon octicon-link"></span></a>嵌入式&amp;无配置</h4>
+
+<p>webmagic与其他Full-Stack的框架不同，没有配置文件，大部分功能都通过简单的API调用完成。webmagic以jar包的形式存在，并且不依赖任何框架，在程序可以随处进行调用。</p>
+
+<p>以下是爬取oschina博客的一段代码：</p>
+
+<pre><code>Spider.me().processor(new SimplePageProcessor("http://my.oschina.net/", "http://my.oschina.net/*/blog/*")).run();
+</code></pre>
+</li>
+<li>
+<h4>
+<a name="-4" class="anchor" href="#-4"><span class="octicon octicon-link"></span></a>可扩展</h4>
+
+<p>参考<a href="https://github.com/scrapy/scrapy"><code>scrapy</code></a>的设计，webmagic将爬虫的扩展点分为Processor、Schedular、Downloader、Pipeline三个模块，可以通过扩展这些接口实现强大的扩展功能。如可以通过多个Spider实现多线程抓取；可以通过扩展Schedular实现断点续传乃至于分布式爬虫；可以通过扩展Pipeline实现业务可定制的持久化功能。</p>
+</li>
+</ul><h3>
+<a name="-5" class="anchor" href="#-5"><span class="octicon octicon-link"></span></a>文档</h3>
+
+<p>文档可参考<a href="http://code4craft.github.io/webmagic/docs">webmagic javadoc</a></p>
+
+<h3>
+<a name="-6" class="anchor" href="#-6"><span class="octicon octicon-link"></span></a>示例</h3>
+
+<p>可参考作者博客<a href="http://my.oschina.net/flashsword/blog/136846">使用webmagic抓取页面并保存为wordpress文件</a></p>
+
+<h3>
+<a name="-7" class="anchor" href="#-7"><span class="octicon octicon-link"></span></a>协议</h3>
+
+<p>webmagic遵循<a href="http://opensource.org/licenses/Apache-2.0">Apache 2.0协议</a></p>
+
+<h3>
+<a name="-8" class="anchor" href="#-8"><span class="octicon octicon-link"></span></a>致谢</h3>
+
+<p>webmagic的架构和设计参考了以下两个项目，感谢以下两个项目的作者：</p>
+
+<p>python爬虫 <strong>scrapy</strong> <a href="https://github.com/scrapy/scrapy">https://github.com/scrapy/scrapy</a></p>
+
+<p>Java爬虫 <strong>Spiderman</strong> <a href="https://gitcafe.com/laiweiwei/Spiderman">https://gitcafe.com/laiweiwei/Spiderman</a></p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/code4craft">code4craft</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-41279861-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
