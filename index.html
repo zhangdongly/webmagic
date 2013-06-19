@@ -56,9 +56,9 @@
 <h4>
 <a name="-2" class="anchor" href="#-2"><span class="octicon octicon-link"></span></a>垂直爬虫</h4>
 
-<p>webmagic着重于页面抽取的工作。开发者可以使用xpath和正则表达式进行链接和内容的提取，支持链式API调用，以及单复数转换。</p>
+<p>webmagic着重于页面抽取的工作。开发者可以使用xpath和正则表达式进行链接和内容的抽取，支持多个抽取方式的链式API调用。</p>
 
-<pre><code>String content = page.getHtml().x("//div[@class='body']").r("这段话比较重要(.*)").toString();
+<pre><code>String content = page.getHtml().xpath("//div[@class='body']").regex("这段话比较重要(.*)").toString();
 </code></pre>
 </li>
 <li>
