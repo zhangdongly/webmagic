@@ -18,9 +18,9 @@ public class DiaoyuwengProcessor implements PageProcessor {
 
     @Override
     public void process(Page page) {
-        List<String> requests = page.getHtml().links().regex("(http://www\\.diaoyuweng\\.com/home\\.php\\?mod=space&uid=88304&do=thread&view=me&type=thread&order=dateline&from=space&page=\\d+)").toStrings();
+        List<String> requests = page.getHtml().links().regex("(http://www\\.diaoyuweng\\.com/home\\.php\\?mod=space&uid=88304&do=thread&view=me&type=thread&order=dateline&from=space&page=\\d+)").all();
         page.addTargetRequests(requests);
-        requests = page.getHtml().links().regex("(http://www\\.diaoyuweng\\.com/thread-\\d+-1-1.html)").toStrings();
+        requests = page.getHtml().links().regex("(http://www\\.diaoyuweng\\.com/thread-\\d+-1-1.html)").all();
         page.addTargetRequests(requests);
         if (page.getUrl().toString().contains("thread")){
             page.putField("title", page.getHtml().xpath("//a[@id='thread_subject']"));
@@ -34,7 +34,7 @@ public class DiaoyuwengProcessor implements PageProcessor {
     public Site getSite() {
         if (site==null){
             site= Site.me().setDomain("www.diaoyuweng.com").addStartUrl("http://www.diaoyuweng.com/home.php?mod=space&uid=88304&do=thread&view=me&type=thread&from=space").
-                    setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31").setEncoding("GBK").setSleepTime(500);
+                    setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31").setCharset("GBK").setSleepTime(500);
         }
         return site;
     }

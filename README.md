@@ -9,10 +9,6 @@ webmagic的发起源于工作中的需要，其定位是帮助开发者更便捷
 
 webmagic的功能覆盖整个爬虫的生命周期(链接提取、页面下载、内容抽取、持久化)，开发者可以便捷的使用xpath和正则表达式进行链接和内容的提取，只需编写少量代码即可完成一个定制爬虫。
 
-#### 请注意
-
-webmagic正处于开发阶段，目前还没有稳定版本。欢迎开发者参与到webmagic的试用和修改中来。 **如果只是想以外部jar包的方式，引用webmagic并进行自己的业务开发，建议你等待webmagic的第一个稳定版本。**
-
 ###特色###
 
 * ####垂直爬虫####
@@ -28,15 +24,17 @@ webmagic正处于开发阶段，目前还没有稳定版本。欢迎开发者参
 		Spider.create(new SimplePageProcessor("http://my.oschina.net/", "http://my.oschina.net/*/blog/*")).run();
 		
 * ####可扩展####
-	参考[`scrapy`](https://github.com/scrapy/scrapy)的设计，webmagic将爬虫的扩展点分为Processor、Schedular、Downloader、Pipeline三个模块，可以通过扩展这些接口实现强大的扩展功能。如可以通过多个Spider实现多线程抓取；可以通过扩展Schedular实现断点续传乃至于分布式爬虫；可以通过扩展Pipeline实现业务可定制的持久化功能。
+	参考[`scrapy`](https://github.com/scrapy/scrapy)的设计，webmagic将爬虫的扩展点分为Processor、Schedular、Downloader、Pipeline三个模块，可以通过扩展这些接口实现强大的扩展功能。如可以通过多个Spider实现多线程抓取；可以通过扩展Schedular实现断点续传乃至于分布式爬虫；可以通过扩展Pipeline实现业务可定制的持久化功能。webmagic的架构原理见作者的一篇文章：[webmagic的设计机制及原理-如何开发一个Java爬虫](http://my.oschina.net/flashsword/blog/145796)
 
-	
+![image](http://code4craft.github.io/images/posts/webmagic-0.1.0.png)
 	
 ------
 
 ###Get Started
 	
 webmagic定制的核心是PageProcessor接口。
+
+项目使用maven托管，如果没用maven的可以去[http://git.oschina.net/flashsword20/webmagic-bin](http://git.oschina.net/flashsword20/webmagic-bin)库下载依赖包(这个仓库代码没有实时同步更新，不过依赖应该不会有变化)。
 	
 例如，我们要实现一个简单的通用爬虫SimplePageProcessor，代码如下：
 
@@ -77,10 +75,11 @@ webmagic定制的核心是PageProcessor接口。
 
 	Spider.create(new SimplePageProcessor("http://my.oschina.net/", "http://my.oschina.net/*/blog/*")).run();
 
-
 ### 示例
 
-可参考作者博客[使用webmagic抓取页面并保存为wordpress文件](http://my.oschina.net/flashsword/blog/136846)
+webmagic-samples目录里有一些定制PageProcessor以抽取不同站点的例子。
+
+作者还有一个使用webmagic进行抽取并持久化到数据库的项目[JobHunter](http://git.oschina.net/flashsword20/jobhunter)。这个项目整合了Spring，自定义了Pipeline，使用mybatis进行数据持久化。
 
 ### 协议
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 可抽取的html文本。<br>
  * @author code4crafter@gmail.com <br>
  *         Date: 13-4-21
  *         Time: 上午7:54
@@ -60,6 +61,12 @@ public class Html extends PlainText {
     public Selectable xpath(String xpath) {
         XpathSelector xpathSelector = SelectorFactory.getInstatnce().newXpathSelector(xpath);
         return selectList(xpathSelector, strings);
+    }
+
+    @Override
+    public Selectable $(String selector) {
+        CssSelector cssSelector = new CssSelector(selector);
+        return selectList(cssSelector,strings);
     }
 
 }

@@ -3,6 +3,7 @@ package us.codecraft.webmagic.selector;
 import java.util.List;
 
 /**
+ * 可进行抽取的文本。<br>
  * @author code4crafter@gmail.com <br>
  * Date: 13-4-20
  * Time: 下午7:51
@@ -16,6 +17,14 @@ public interface Selectable {
      * @return new Selectable after extract
      */
     public Selectable xpath(String xpath);
+
+    /**
+     * select list with css selector
+     *
+     * @param selector css selector expression
+     * @return new Selectable after extract
+     */
+    public Selectable $(String selector);
 
     /**
      * select smart content with ReadAbility algorithm
@@ -60,5 +69,5 @@ public interface Selectable {
      *
      * @return multi string result
      */
-    public List<String> toStrings();
+    public List<String> all();
 }

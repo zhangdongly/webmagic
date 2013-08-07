@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 可抽取的纯文本，不包括xpath和css selector实现。<br>
  * @author code4crafter@gmail.com <br>
  * Date: 13-4-21
  * Time: 上午7:54
@@ -30,6 +31,11 @@ public class PlainText implements Selectable {
 
     @Override
     public Selectable xpath(String xpath) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Selectable $(String selector) {
         throw new UnsupportedOperationException();
     }
 
@@ -76,14 +82,14 @@ public class PlainText implements Selectable {
     }
 
     @Override
-    public List<String> toStrings() {
+    public List<String> all() {
         return strings;
     }
 
     @Override
     public String toString() {
-        if (CollectionUtils.isNotEmpty(toStrings())) {
-            return toStrings().get(0);
+        if (CollectionUtils.isNotEmpty(all())) {
+            return all().get(0);
         } else {
             return null;
         }

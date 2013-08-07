@@ -18,11 +18,13 @@ public class Site {
 
     private Map<String, String> cookies = new LinkedHashMap<String, String>();
 
-    private String encoding;
+    private String charset;
 
     private List<String> startUrls = new ArrayList<String>();
 
     private int sleepTime = 3000;
+
+    private int retryTimes = 0;
 
     private static final Set<Integer> DEFAULT_STATUS_CODE_SET = new HashSet<Integer>();
 
@@ -107,11 +109,11 @@ public class Site {
      * 设置页面编码，若不设置则自动根据Html meta信息获取。<br>
      * 一般无需设置encoding，如果发现下载的结果是乱码，则可以设置此项。<br>
      *
-     * @param encoding 编码格式，主要是"utf-8"、"gbk"两种
+     * @param charset 编码格式，主要是"utf-8"、"gbk"两种
      * @return this
      */
-    public Site setEncoding(String encoding) {
-        this.encoding = encoding;
+    public Site setCharset(String charset) {
+        this.charset = charset;
         return this;
     }
 
@@ -120,8 +122,8 @@ public class Site {
      *
      * @return 已设置的domain
      */
-    public String getEncoding() {
-        return encoding;
+    public String getCharset() {
+        return charset;
     }
 
     /**
@@ -183,6 +185,23 @@ public class Site {
         return sleepTime;
     }
 
+    /**
+     * 获取重新下载的次数，默认为0
+     * @return 重新下载的次数
+     */
+    public int getRetryTimes() {
+        return retryTimes;
+    }
+
+    /**
+     * 设置获取重新下载的次数，默认为0
+     * @return this
+     */
+    public Site setRetryTimes(int retryTimes) {
+        this.retryTimes = retryTimes;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -194,10 +213,24 @@ public class Site {
             return false;
         if (!domain.equals(site.domain)) return false;
         if (!startUrls.equals(site.startUrls)) return false;
-        if (encoding != null ? !encoding.equals(site.encoding) : site.encoding != null) return false;
+        if (charset != null ? !charset.equals(site.charset) : site.charset != null) return false;
         if (userAgent != null ? !userAgent.equals(site.userAgent) : site.userAgent != null) return false;
 
         return true;
+    }
+
+    public Task toTask(){
+        return new Task() {
+            @Override
+            public String getUUID() {
+                return Site.this.getDomain();
+            }
+
+            @Override
+            public Site getSite() {
+                return Site.this;
+            }
+        };
     }
 
     @Override
@@ -205,7 +238,7 @@ public class Site {
         int result = domain.hashCode();
         result = 31 * result + (startUrls != null ? startUrls.hashCode() : 0);
         result = 31 * result + (userAgent != null ? userAgent.hashCode() : 0);
-        result = 31 * result + (encoding != null ? encoding.hashCode() : 0);
+        result = 31 * result + (charset != null ? charset.hashCode() : 0);
         result = 31 * result + (acceptStatCode != null ? acceptStatCode.hashCode() : 0);
         return result;
     }
