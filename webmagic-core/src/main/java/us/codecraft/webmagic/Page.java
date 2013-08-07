@@ -1,39 +1,41 @@
 package us.codecraft.webmagic;
 
-import org.apache.commons.lang3.StringUtils;
-import us.codecraft.webmagic.selector.Selectable;
-import us.codecraft.webmagic.utils.UrlUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.StringUtils;
+
+import us.codecraft.webmagic.selector.Selectable;
+import us.codecraft.webmagic.utils.UrlUtils;
+
 /**
  * <pre>
- *Page保存了上一次抓取的结果，并可定义待抓取的链接内容。
- *
- *     主要方法：
- *     {@link #getUrl()} 获取页面的Url
- *     {@link #getHtml()}  获取页面的html内容
- *     {@link #putField(String, us.codecraft.webmagic.selector.Selectable)} 保存抽取的结果
- *     {@link #getFields()} 获取抽取的结果，在 {@link us.codecraft.webmagic.pipeline.Pipeline} 中调用
- *     {@link #addTargetRequests(java.util.List)} {@link #addTargetRequest(String)} 添加待抓取的链接
- *
+ * Page保存了上一次抓取的结果，并可定义待抓取的链接内容。
+ * 
+ *      主要方法：
+ *      {@link #getUrl()} 获取页面的Url
+ *      {@link #getHtml()}  获取页面的html内容
+ *      {@link #putField(String, us.codecraft.webmagic.selector.Selectable)} 保存抽取的结果
+ *      {@link #getFields()} 获取抽取的结果，在 {@link us.codecraft.webmagic.pipeline.Pipeline} 中调用
+ *      {@link #addTargetRequests(java.util.List)} {@link #addTargetRequest(String)} 添加待抓取的链接
+ * 
  * </pre>
+ * 
  * @author code4crafter@gmail.com <br>
  */
 public class Page {
 
     private Request request;
 
-    private Map<String, Selectable> fields = new ConcurrentHashMap<String, Selectable>();
+    private final Map<String, Selectable> fields = new ConcurrentHashMap<String, Selectable>();
 
     private Selectable html;
 
     private Selectable url;
 
-    private List<Request> targetRequests = new ArrayList<Request>();
+    private final List<Request> targetRequests = new ArrayList<Request>();
 
     private boolean skip;
 
@@ -41,6 +43,7 @@ public class Page {
 
     /**
      * 是否忽略这个页面，用于pipeline来判断是否对这个页面进行处理
+     * 
      * @return 是否忽略 true 忽略
      */
     public boolean isSkip() {
@@ -49,6 +52,7 @@ public class Page {
 
     /**
      * 设置是否忽略这个页面，用于pipeline来判断是否对这个页面进行处理
+     * 
      * @param skip 是否忽略 true 忽略
      */
     public void setSkip(boolean skip) {
@@ -60,6 +64,7 @@ public class Page {
 
     /**
      * 获取抽取的结果，在{@link us.codecraft.webmagic.pipeline.Pipeline} 中调用
+     * 
      * @return fields 抽取的结果
      */
     public Map<String, Selectable> getFields() {
@@ -68,6 +73,7 @@ public class Page {
 
     /**
      * 保存抽取的结果
+     * 
      * @param key 结果的key
      * @param field 结果的value
      */
@@ -77,6 +83,7 @@ public class Page {
 
     /**
      * 获取页面的html内容
+     * 
      * @return html 页面的html内容
      */
     public Selectable getHtml() {
@@ -93,6 +100,7 @@ public class Page {
 
     /**
      * 添加待抓取的链接
+     * 
      * @param requests 待抓取的链接
      */
     public void addTargetRequests(List<String> requests) {
@@ -109,6 +117,24 @@ public class Page {
 
     /**
      * 添加待抓取的链接
+     * 
+     * @param requests 待抓取的链接
+     */
+    public void addTargetRequests(List<String> requests, String baseUrl) {
+        synchronized (targetRequests) {
+            for (String s : requests) {
+                if (StringUtils.isBlank(s) || s.equals("#") || s.startsWith("javascript:")) {
+                    break;
+                }
+                s = UrlUtils.fixRelativeUrl(s, url.toString(), baseUrl);
+                targetRequests.add(new Request(s));
+            }
+        }
+    }
+
+    /**
+     * 添加待抓取的链接
+     * 
      * @param requestString 待抓取的链接
      */
     public void addTargetRequest(String requestString) {
@@ -123,6 +149,7 @@ public class Page {
 
     /**
      * 添加待抓取的页面，在需要传递附加信息时使用
+     * 
      * @param request 待抓取的页面
      */
     public void addTargetRequest(Request request) {
@@ -133,6 +160,7 @@ public class Page {
 
     /**
      * 获取页面的Url
+     * 
      * @return url 当前页面的url，可用于抽取
      */
     public Selectable getUrl() {
@@ -141,6 +169,7 @@ public class Page {
 
     /**
      * 设置url
+     * 
      * @param url
      */
     public void setUrl(Selectable url) {
@@ -149,6 +178,7 @@ public class Page {
 
     /**
      * 获取抓取请求
+     * 
      * @return request 抓取请求
      */
     public Request getRequest() {
@@ -161,15 +191,17 @@ public class Page {
 
     /**
      * 获取附加对象
+     * 
      * @param <T> 对象类型
      * @return 对象内容
      */
     public <T> T getExtra() {
-        return (T)extra;
+        return (T) extra;
     }
 
     /**
      * 设置附加对象
+     * 
      * @param extra 对象内容
      * @param <T> 对象类型
      */

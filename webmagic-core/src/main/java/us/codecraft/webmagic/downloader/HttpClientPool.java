@@ -1,5 +1,7 @@
 package us.codecraft.webmagic.downloader;
 
+import java.util.Map;
+
 import org.apache.http.HttpVersion;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
@@ -12,15 +14,18 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.impl.cookie.BasicClientCookie;
-import org.apache.http.params.*;
-import us.codecraft.webmagic.Site;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParamBean;
 
-import java.util.Map;
+import us.codecraft.webmagic.Site;
 
 /**
  * @author code4crafter@gmail.com <br>
- * Date: 13-4-21
- * Time: 下午12:29
+ *         Date: 13-4-21
+ *         Time: 下午12:29
  */
 public class HttpClientPool {
 
@@ -30,7 +35,7 @@ public class HttpClientPool {
         return INSTANCE;
     }
 
-    private int poolSize;
+    private final int poolSize;
 
     private HttpClientPool(int poolSize) {
         this.poolSize = poolSize;
@@ -48,13 +53,14 @@ public class HttpClientPool {
 
         HttpProtocolParamBean paramsBean = new HttpProtocolParamBean(params);
         paramsBean.setVersion(HttpVersion.HTTP_1_1);
-        paramsBean.setContentCharset("UTF-8");
+        paramsBean.setContentCharset("GB2312");
         paramsBean.setUseExpectContinue(false);
 
         SchemeRegistry schemeRegistry = new SchemeRegistry();
         schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
 
-        PoolingClientConnectionManager connectionManager = new PoolingClientConnectionManager(schemeRegistry);
+        PoolingClientConnectionManager connectionManager = new PoolingClientConnectionManager(
+                schemeRegistry);
         connectionManager.setMaxTotal(poolSize);
         connectionManager.setDefaultMaxPerRoute(100);
         DefaultHttpClient httpClient = new DefaultHttpClient(connectionManager, params);
@@ -67,7 +73,8 @@ public class HttpClientPool {
     private void generateCookie(DefaultHttpClient httpClient, Site site) {
         CookieStore cookieStore = new BasicCookieStore();
         for (Map.Entry<String, String> cookieEntry : site.getCookies().entrySet()) {
-            BasicClientCookie cookie = new BasicClientCookie(cookieEntry.getKey(), cookieEntry.getValue());
+            BasicClientCookie cookie = new BasicClientCookie(cookieEntry.getKey(),
+                    cookieEntry.getValue());
             cookie.setDomain(site.getDomain());
             cookieStore.addCookie(cookie);
         }

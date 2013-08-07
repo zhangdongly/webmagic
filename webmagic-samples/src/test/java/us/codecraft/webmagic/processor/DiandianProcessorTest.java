@@ -1,19 +1,20 @@
 package us.codecraft.webmagic.processor;
 
+import java.io.IOException;
+
 import org.junit.Ignore;
 import org.junit.Test;
+
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.pipeline.FreemarkerPipeline;
 import us.codecraft.webmagic.samples.DiandianBlogProcessor;
 import us.codecraft.webmagic.schedular.FileCacheQueueScheduler;
 
-import java.io.IOException;
-
 /**
  * @author code4crafter@gmail.com <br>
- * Date: 13-6-9
- * Time: 上午8:02
+ *         Date: 13-6-9
+ *         Time: 上午8:02
  */
 public class DiandianProcessorTest {
 
@@ -31,7 +32,7 @@ public class DiandianProcessorTest {
         //FileCacheQueueSchedular保存url，支持断点续传，临时文件输出到/data/temp/webmagic/cache目录
         //Spider.run()执行
 
-        Spider.create(diaoyuwengProcessor).pipeline(new ConsolePipeline()).pipeline(pipeline).scheduler(new FileCacheQueueScheduler("/data/temp/webmagic/cache/")).
-                run();
+        Spider.create(diaoyuwengProcessor).pipeline(new ConsolePipeline()).pipeline(pipeline)
+                .scheduler(new FileCacheQueueScheduler("/data/temp/webmagic/cache/")).run();
     }
 }

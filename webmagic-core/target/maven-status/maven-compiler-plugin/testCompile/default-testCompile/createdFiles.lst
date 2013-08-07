@@ -1,0 +1,5 @@
+us/codecraft/webmagic/downloader/HttpClientDownloaderTest.class
+us/codecraft/webmagic/selector/RegexSelectorTest.class
+us/codecraft/webmagic/HtmlTest.class
+us/codecraft/webmagic/utils/UrlUtilsTest.class
+us/codecraft/webmagic/selector/XpathSelectorTest.class

@@ -26,6 +26,17 @@
             <version>4.7</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+			<groupId>org.htmlparser</groupId>
+			<artifactId>htmlparser</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.snsxiu</groupId>
+			<artifactId>snsxiu-common</artifactId>
+			<version>1.0-SNAPSHOT</version>		
+		</dependency>
+		
     </dependencies>
 
     <build>

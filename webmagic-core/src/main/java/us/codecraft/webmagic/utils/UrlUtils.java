@@ -1,14 +1,14 @@
 package us.codecraft.webmagic.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author code4crafter@gmail.com <br>
- * Date: 13-4-21
- * Time: 下午1:52
+ *         Date: 13-4-21
+ *         Time: 下午1:52
  */
 public class UrlUtils {
 
@@ -18,7 +18,9 @@ public class UrlUtils {
         if (StringUtils.isBlank(url) || StringUtils.isBlank(refer)) {
             return url;
         }
-        if (url.startsWith("http") || url.startsWith("ftp") || url.startsWith("mailto") || url.startsWith("javascript:")) {
+        url = url.split(" ")[0];
+        if (url.startsWith("http") || url.startsWith("ftp") || url.startsWith("mailto")
+                || url.startsWith("javascript:")) {
             return url;
         }
         if (StringUtils.startsWith(url, "/")) {
@@ -75,7 +77,8 @@ public class UrlUtils {
         return domain;
     }
 
-    private static Pattern patternForHref = Pattern.compile("(<a[^<>]*href=)[\"']{0,1}([^\"']*)[\"']{0,1}", Pattern.CASE_INSENSITIVE);
+    private static Pattern patternForHref = Pattern.compile(
+            "(<a[^<>]*href=)[\"']{0,1}([^\"']*)[\"']{0,1}", Pattern.CASE_INSENSITIVE);
 
     public static String fixAllRelativeHrefs(String html, String url) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -102,4 +105,29 @@ public class UrlUtils {
         }
     }
 
+    public static String fixRelativeUrl(String url, String refer, String baseUrl) {
+        if (StringUtils.isNotEmpty(baseUrl)) {
+            if (StringUtils.isBlank(url) || StringUtils.isBlank(refer)) {
+                return url;
+            }
+            url = url.split(" ")[0];
+            if (url.startsWith("http") || url.startsWith("ftp") || url.startsWith("mailto")
+                    || url.startsWith("javascript:")) {
+                return url;
+            }
+
+            if (StringUtils.startsWith(url, "/")) {
+                String host = getHost(refer);
+                return host + url;
+            } else if (!StringUtils.startsWith(url, ".")) {
+                refer = reversePath(refer, 1);
+                return refer + "/" + url;
+            } else {
+                return baseUrl + url;
+            }
+
+        } else {
+            return fixRelativeUrl(url, refer);
+        }
+    }
 }
